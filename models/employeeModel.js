@@ -3,14 +3,15 @@ const mongoose = require('mongoose');
 const { double } = require('webidl-conversions');
 
 const employeeSchema = new mongoose.Schema({
-    first_name: String,
-    last_name: String,
-    email: String,
+    first_name: {type: String, required: true, maxLength: 100},
+    last_name: {type: String, required: true, maxLength: 50},
+    email: {type: String, maxLength: 50, unique: true},
     gender: {
         type: String,
-        enum: ["Male", "Female", "Other"]
+        enum: ["Male", "Female", "Other"],
+        maxLength: 25
     },
-    salary: Number,
+    salary: {type: Number, required: true},
 
 })
 
