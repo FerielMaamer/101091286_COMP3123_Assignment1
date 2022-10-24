@@ -20,8 +20,12 @@
   },
   "homepage": "https://github.com/FerielMaamer/101091286_COMP3123_Assignment1#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
+    "bcryptjs": "^2.4.3",
+    "cryptr": "^6.0.3",
     "express": "^4.18.2",
-    "mongoose": "^6.6.7"
+    "mongoose": "^6.6.7",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

@@ -3,6 +3,7 @@ const router = express.Router();
 const app = express();
 const userModel = require('../models/userModel');
 const employeeModel = require('../models/employeeModel');
+//const validate = require('../models/userModel');
 
 
 //1-Allow user to create new account
@@ -32,24 +33,29 @@ router.post('/user/login', async(req, res)=>{
             message: `user content cannot be empty`
         });
         }else{            
-            const user = await userModel.find(
-                {"password":req.body.password, $or:[
+            userModel.findOne(
+                {$or:[
                 {"username":req.body.username},
                 {"email": req.body.email}
-            ]})
-            console.log(user)
-            if (user.length > 0){
-                res.status(200).send({
-                "status": true,
-                "username": user.username, // this didn't show!!!!!!!!!!
-                "message": "User logged in successfully"
-            })
-            }else {
-                res.status(200).send({
-                "status": false,
-                "message": "Invalid Username and password"
-            })
-            }            
+            ]}, function(err, user1){
+                if (err) throw "error1";
+                user1.comparePassword(req.body.password, function(err, isMatch){
+                    if (err) throw "error2";
+                    else {
+                        if (isMatch){
+                            res.status(200).send({
+                            "status": true,
+                            "username": user1.username,
+                            "message": "User logged in successfully"
+                            })
+                        }else {
+                            res.status(200).send({
+                            "status": false,
+                            "message": "Invalid Username and password"
+                            })
+                        }   
+                    }})
+            })        
         }        
     } catch (error) {
         res.status(500).send(error)
